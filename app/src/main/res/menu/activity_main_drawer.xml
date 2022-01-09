@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="@string/menu_home" />
+        <item
+            android:title="@string/donate">
+            <menu>
+                <item
+                    android:id="@+id/nav_donate"
+                    android:title="@string/menu_donate_blood"
+                    android:icon="@drawable/ic_add_donate"/>
+                <item
+                    android:id="@+id/nav_donate_list"
+                    android:title="@string/menu_all_donate"
+                    android:icon="@drawable/offer"/>
+
+            </menu>
+        </item>
+        <item
+            android:title="@string/receive">
+            <menu>
+
+                <item
+                    android:id="@+id/nav_request"
+                    android:title="@string/menu_request"
+                    android:icon="@drawable/ic_add_donate"/>
+                <item
+                    android:id="@+id/nav_request_list"
+                    android:title="@string/menu_all_request"
+                    android:icon="@drawable/offer"/>
+            </menu>
+        </item>
+
+        <item
+            android:title="@string/notifications_et_profile">
+            <menu>
+                <item
+                    android:id="@+id/nav_notification"
+                    android:title="@string/menu_notification"
+                    android:icon="@drawable/ic_notifications" />
+
+                <item
+                    android:id="@+id/nav_profile"
+                    android:title="@string/menu_profile"
+                    android:icon="@drawable/ic_account"/>
+            </menu>
+        </item>
+    </group>
+</menu>

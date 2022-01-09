@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:padding="10dp"
+       android:orientation="vertical">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:paddingTop="10dp"
+           android:gravity="center">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/fill_this_form_to_give_your_blood"
+               android:textSize="20sp"
+               android:textColor="@color/black"
+               android:textStyle="bold"/>
+       </LinearLayout>
+       <!-->Region, Ville, Commune<-->
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:padding="15dp">
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="0dp"
+               android:layout_weight="0.7"
+               android:paddingBottom="5dp"
+               android:text="@string/localization"
+               android:textColor="@color/black"
+               android:textSize="15sp"
+               android:textStyle="bold" />
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="0.2"
+                   android:paddingBottom="5dp"
+                   android:text="@string/region"
+                   android:textColor="@color/black"
+                   android:textSize="12sp"
+                   android:textStyle="bold" />
+
+               <Spinner
+                   android:id="@+id/spinner_region"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="0.8"
+                   android:entries="@array/region_array"
+                   android:textAlignment="center" />
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="0.2"
+                   android:paddingBottom="5dp"
+                   android:text="@string/city"
+                   android:textColor="@color/black"
+                   android:textSize="12sp"
+                   android:textStyle="bold" />
+
+               <Spinner
+                   android:id="@+id/spinner_city"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="0.8"
+                   android:entries="@array/ville_BeniMellalKhénifra"
+                   android:textAlignment="center" />
+           </LinearLayout>
+       </LinearLayout>
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+           <Space
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1" />
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:paddingBottom="5dp"
+               android:text="@string/blood_group"
+               android:textColor="@color/black"
+               android:textSize="15sp"
+               android:textStyle="bold" />
+           <Space
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1" />
+           <Spinner
+               android:id="@+id/spinner_blood_group"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:entries="@array/blood_group_array"
+               android:textAlignment="textEnd" />
+           <Space
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1" />
+       </LinearLayout>
+       <EditText
+           android:id="@+id/description_edt"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:paddingTop="20dp"
+           android:hint="@string/description"
+           android:textSize="15sp"/>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:paddingTop="20dp"
+           android:gravity="end">
+           <androidx.appcompat.widget.AppCompatButton
+               android:id="@+id/validate_btn"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:drawableStart="@drawable/ic_validate"
+               android:backgroundTint="@color/teal_200"
+               android:text="@string/validate"/>
+       </LinearLayout>
+
+   </LinearLayout>
+</ScrollView>

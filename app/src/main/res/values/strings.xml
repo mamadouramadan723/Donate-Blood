@@ -1,0 +1,207 @@
+<resources>
+    <string name="app_name">Give Blood</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_all_donate">All Donate</string>
+    <string name="receive">Receive</string>
+    <string name="donate">Donate</string>
+    <string name="menu_donate_blood">Donate Blood</string>
+    <string name="ask_for_receive">Request Blood</string>
+    <string name="menu_all_my_ask">My Requests</string>
+    <string name="notifications_et_profile">Notifications and Profile</string>
+    <string name="menu_notification">Notification</string>
+    <string name="menu_profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_all_request">All Request</string>
+    <string name="title_activity_setting">Activity_Setting</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title_activity_settings">Activity_Settings</string>
+    <string name="action_sign">Sign In</string>
+    <string name="menu_request">Request For Blood</string>
+    <string name="username">Usename</string>
+    <string name="mail">Mail</string>
+    <string name="phoneNumber">Phone Number</string>
+    <string name="modify_profile">Modify Profile</string>
+    <string name="blood_group">Blood Group</string>
+    <string name="localization">Select your Localization</string>
+    <string name="region">Region</string>
+    <string name="city">City</string>
+    <string name="fill_this_form_to_give_your_blood">Fill this form to give your blood</string>
+    <string name="fill_this_form_to_request_for_blood">Fill This Form To Request For Blood</string>
+    <string name="validate">Validate</string>
+    <string name="description">Add few Description if nedded</string>
+    <string name="city_">"City : "</string>
+    <string name="description_">"Description : "</string>
+    <string name="call">Call</string>
+    <string name="whatsapp">Whatsapp</string>
+    <string name="other">Other Chat</string>
+    <string name="publication_time">Publication Time</string>
+    <string name="blood_group_">"Blood Group : "</string>
+    <string name="menu_update_donate_request">Update This Post</string>
+    <string name="menu_profile_update">Update Profile</string>
+
+
+    <!--><-->
+
+    <string-array name="region_array">
+        <item>Tanger-Tétouan- Al Hoceima</item>
+        <item>Oriental</item>
+        <item>Fès-Meknès</item>
+        <item>Rabat-Salé-Kénitra</item>
+        <item>Béni Mellal-Khénifra</item>
+        <item>Casablanca-Settat</item>
+        <item>Marrakech-Safi</item>
+        <item>Drâa‐Tafilalet</item>
+        <item>Sous-Massa</item>
+        <item>Guelmim-Oued Noun</item>
+        <item>Laâyoune‐Saguia al Hamra</item>
+        <item>Ed Dakhla‐Oued ed Dahab</item>
+    </string-array>
+    <string-array name="ville_TangerTetouanAlHoceima">
+        <item>Tanger‐Asilah</item>
+        <item>M\'Diq‐Fnidq</item>
+        <item>Chefchaouen</item>
+        <item>Fahs‐Anjra</item>
+        <item>Larache</item>
+        <item>Tétouan</item>
+        <item>Ouezzane</item>
+        <item>Al Hoceima</item>
+    </string-array>
+
+    <string-array name="ville_Oriental">
+        <item>Oujda Angad</item>
+        <item>Berkane</item>
+        <item>Jrada</item>
+        <item>Nador</item>
+        <item>Taourirt</item>
+        <item>Driouch</item>
+        <item>Guercif</item>
+        <item>Figuig</item>
+    </string-array>
+
+    <string-array name="ville_FesMeknes">
+        <item>Meknès</item>
+        <item>Fès</item>
+        <item>Boulemane</item>
+        <item>El Hajeb</item>
+        <item>Ifrane</item>
+        <item>Sefrou</item>
+        <item>Taounate</item>
+        <item>Taza</item>
+        <item>Moulay Yacoub</item>
+    </string-array>
+
+    <string-array name="ville_RabatSaleKenitra">
+        <item>Rabat</item>
+        <item>Salé</item>
+        <item>Skhirate‐Temara</item>
+        <item>Kénitra</item>
+        <item>Khemisset</item>
+        <item>Sidi Kacem</item>
+        <item>Sidi Slimane</item>
+    </string-array>
+
+    <string-array name="ville_BeniMellalKhénifra">
+        <item>Azilal</item>
+        <item>Béni Mellal</item>
+        <item>Khénifra</item>
+        <item>Khouribga</item>
+        <item>Fquih Ben Salah</item>
+    </string-array>
+
+    <string-array name="ville_CasablancaSettat">
+        <item>Casablanca</item>
+        <item>Mohammedia</item>
+        <item>Ben Slimane</item>
+        <item>El Jadida</item>
+        <item>Mediouna</item>
+        <item>Nouacer</item>
+        <item>Settat</item>
+        <item>Berrechid</item>
+        <item>Sidi Bennour</item>
+    </string-array>
+
+
+    <string-array name="ville_MarrakechSafi">
+        <item>Marrakech</item>
+        <item>Al Haouz</item>
+        <item>Chichaoua</item>
+        <item>El Kelaa Sraghna</item>
+        <item>Essaouira</item>
+        <item>Safi</item>
+        <item>Rehamna</item>
+        <item>Youssoufia</item>
+    </string-array>
+
+
+    <string-array name="ville_DraaTafilalet">
+        <item>Errachidia</item>
+        <item>Ouarzazate</item>
+        <item>Zagora</item>
+        <item>Tinghir</item>
+        <item>Midelt</item>
+    </string-array>
+
+    <string-array name="ville_SousMassa">
+        <item>Agadir Ida Ou Tanane</item>
+        <item>Inezgane Ait Melloul</item>
+        <item>Chtouka Ait Baha</item>
+        <item>Taroudant</item>
+        <item>Tata</item>
+        <item>Tiznit</item>
+    </string-array>
+
+    <string-array name="ville_GuelmimOuedNoun">
+        <item>Guelmim</item>
+        <item>Tan‐Tan</item>
+        <item>Sidi Ifni</item>
+        <item>Assa‐Zag</item>
+    </string-array>
+
+    <string-array name="ville_LaayouneSaguiaalHamra">
+        <item>Es Semara</item>
+        <item>Boujdour</item>
+        <item>Laâyoune</item>
+        <item>Tarfaya</item>
+    </string-array>
+
+    <string-array name="ville_EdDakhlaOuededDahab">
+        <item>Aousserd</item>
+        <item>Oued Eddahab</item>
+    </string-array>
+
+    <!--><-->
+    <string-array name="blood_group_array">
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>O+</item>
+        <item>O-</item>
+    </string-array>
+</resources>
