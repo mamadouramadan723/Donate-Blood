@@ -66,13 +66,15 @@ public class Fragment_Profile extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
                         DocumentSnapshot document = task.getResult();
-                        String nom, phone_number, mail, image_url;
+                        String nom, phone_number, mail, image_url, blood_group;
                         nom = "" + document.getData().get("nom").toString();
                         phone_number = "" + document.getData().get("phone_number").toString();
                         mail = "" + document.getData().get("mail").toString();
                         image_url = "" + document.getData().get("image_url").toString();
+                        blood_group = "" + document.getData().get("blood_group").toString();
 
                         binding.usernameTv.setText(nom);
+                        binding.bloodGroupTv.setText(blood_group);
                         binding.phoneNumberTv.setText(phone_number);
                         binding.mailTv.setText(mail);
                         Picasso.get().load(image_url).into(binding.profileImgv);

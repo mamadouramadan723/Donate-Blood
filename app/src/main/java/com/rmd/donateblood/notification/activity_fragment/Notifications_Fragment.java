@@ -62,7 +62,7 @@ public class Notifications_Fragment extends Fragment {
                             Notifications mynotifications = document.toObject(Notifications.class);
                             notifications.add(mynotifications);
 
-                            notificationsRecyclerAdapter = new Notifications_RecyclerAdapter(getContext(), notifications);
+                            notificationsRecyclerAdapter = new Notifications_RecyclerAdapter(getContext(), Notifications_Fragment.this, getActivity(), notifications);
                             recyclerView.setAdapter(notificationsRecyclerAdapter);
                         }
                     }

@@ -97,8 +97,9 @@ public class Activity_Login_Register extends AppCompatActivity {
                     mail = ""+user.getEmail();
                     userId = user.getUid();
                     phone_number = "";
+                    blood_group ="Not indicated";
                     image_url = "https://firebasestorage.googleapis.com/v0/b/donate-blood-2c0cc.appspot.com/o/applogo.png?alt=media&token=b9dd8cfd-4508-4659-a95f-7473dfd4bf47";
-                    my_user = new User(userId, nom, phone_number, mail, image_url);
+                    my_user = new User(userId, nom, phone_number, mail, image_url, blood_group );
                     String timeStamp = String.valueOf(System.currentTimeMillis());
 
                     String finalNom = nom;

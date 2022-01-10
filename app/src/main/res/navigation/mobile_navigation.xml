@@ -69,9 +69,19 @@
 
     <fragment
         android:id="@+id/nav_notification"
-        android:name="com.rmd.donateblood.ui.notification.Fragment_Notification"
+        android:name="com.rmd.donateblood.notification.activity_fragment.Notifications_Fragment"
         android:label="@string/menu_notification"
-        tools:layout="@layout/fragment_notification" />
+        tools:layout="@layout/fragment_notification" >
+        <action
+            android:id="@+id/action_nav_notification_to_nav_matched"
+            app:destination="@id/nav_matched" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_matched"
+        android:name="com.rmd.donateblood.ui.donate_or_request.Fragment_Matched_Donate_or_Request"
+        android:label="@string/menu_matched"
+        tools:layout="@layout/row_donate_or_request" />
 
     <fragment
         android:id="@+id/nav_update_donate_request"

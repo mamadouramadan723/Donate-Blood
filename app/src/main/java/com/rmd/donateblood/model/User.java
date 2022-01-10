@@ -1,17 +1,18 @@
 package com.rmd.donateblood.model;
 
 public class User {
-    private String  userId, nom, phone_number, mail, image_url;
+    private String  userId, nom, phone_number, mail, image_url, blood_group;
 
     public User() {
     }
 
-    public User(String userId, String nom, String phone_number, String mail, String image_url) {
+    public User(String userId, String nom, String phone_number, String mail, String image_url, String blood_group) {
         this.userId = userId;
         this.nom = nom;
         this.phone_number = phone_number;
         this.mail = mail;
         this.image_url = image_url;
+        this.blood_group = blood_group;
     }
 
     public String getUserId() {
@@ -52,5 +53,13 @@ public class User {
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
+    }
+
+    public String getBlood_group() {
+        return blood_group;
+    }
+
+    public void setBlood_group(String blood_group) {
+        this.blood_group = blood_group;
     }
 }

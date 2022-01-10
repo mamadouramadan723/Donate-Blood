@@ -31,7 +31,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.rmd.donateblood.R;
@@ -124,16 +126,75 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
                 .addOnCompleteListener(task -> {
                     binding.descriptionEdt.setText("");
                     progressDialog.dismiss();
-                    find_donor_and_send_notification();
+                    String timeStamp = String.valueOf(System.currentTimeMillis());
+                    find_donor_inside_donation_and_send_notification(timeStamp);
+                    find_donor_inside_profiles_and_send_notification(timeStamp);
                     NavHostFragment.findNavController(Fragment_Request.this)
                             .navigate(R.id.action_nav_request_to_nav_request_list);
                 });
     }
 
-    private void find_donor_and_send_notification() {
-        String timeStamp = String.valueOf(System.currentTimeMillis());
+    private void find_donor_inside_profiles_and_send_notification(String timeStamp) {
 
-        Log.d("******", ""+compatible_list);
+        profile_ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot queryDocumentSnapshot : value) {
+                    profile_ref.document(queryDocumentSnapshot.getId())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        String this_blood_group, this_user_id;
+                                        this_blood_group = "" + document.getData().get("blood_group").toString();
+                                        this_user_id = "" + document.getData().get("userId").toString();
+
+                                        //s'ils sont compatibles
+                                        if (compatible_list.contains(this_blood_group)) {
+                                            //notify donor
+                                            String notif_desc = "Vous pouvez peut être sauver cette vie, cliquez pour voir";
+                                            String type_notif = "requests";
+                                            Notifications notification =
+                                                    new Notifications(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                                            image_url, timeStamp, timeStamp, notif_desc, type_notif, donate_request_id);
+
+                                            notif_ref.document(this_user_id)
+                                                    .collection("notifs")
+                                                    .document(timeStamp)
+                                                    .set(notification);
+                                            send_notification_to_donor(this_user_id);
+
+                                            //notify requester
+                                            notif_desc = "Cette Personne pourrait bien vous aider, cliquez pour voir";
+                                            if (this_user_id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                                type_notif = "requests";
+                                            } else {
+                                                type_notif = "donates";
+                                            }
+
+                                            notification =
+                                                    new Notifications(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                                            image_url, timeStamp, timeStamp, notif_desc, type_notif, donate_request_id);
+
+                                            notif_ref.document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                    .collection("notifs")
+                                                    .document(timeStamp)
+                                                    .set(notification);
+                                            send_notification_to_requester(this_user_id);
+                                        }
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+    }
+
+    private void find_donor_inside_donation_and_send_notification(String timeStamp) {
+
         request_ref.whereIn("blood_group", compatible_list)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -149,7 +210,7 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
                                 String type_notif = "requests";
                                 Notifications notification =
                                         new Notifications(FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                                                image_url, timeStamp, timeStamp, notif_desc, type_notif, timeStamp);
+                                                image_url, timeStamp, timeStamp, notif_desc, type_notif, donate_request_id);
 
                                 notif_ref.document(id)
                                         .collection("notifs")
@@ -159,10 +220,16 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
 
                                 //notify requester
                                 notif_desc = "Cette Donation pourrait bien vous concerner, cliquez pour voir";
-                                type_notif = "donates";
+                                if (id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    type_notif = "requests";
+                                } else {
+                                    type_notif = "donates";
+                                }
+
                                 notification =
                                         new Notifications(FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                                                image_url, timeStamp, timeStamp, notif_desc, type_notif, timeStamp);
+                                                image_url, timeStamp, timeStamp, notif_desc, type_notif, donate_request_id);
+
                                 notif_ref.document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                         .collection("notifs")
                                         .document(timeStamp)
@@ -175,7 +242,9 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
     }
 
     private void get_blood_compatibility() {
-
+        //compatible_list.clear();
+        Log.d("******2", "" + blood_group);
+        //compatible_list.add("");
         switch (blood_group) {
             case "A+":
                 compatible_list.add("A+");
@@ -220,7 +289,11 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
             case "0-":
                 compatible_list.add("0-");
                 break;
+            default:
+                compatible_list.add(blood_group);
+                break;
         }
+        Log.d("******3", "" + compatible_list);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

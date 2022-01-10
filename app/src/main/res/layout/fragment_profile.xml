@@ -68,6 +68,15 @@
                         android:textSize="12sp"
                         android:textStyle="italic" />
 
+                    <TextView
+                        android:id="@+id/blood_group_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/blood_group"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="italic" />
+
                     <Button
                         android:id="@+id/update_profile_btn"
                         android:layout_width="wrap_content"

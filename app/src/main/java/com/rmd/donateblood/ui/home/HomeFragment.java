@@ -19,9 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ServerTimestamp;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.type.Date;
 import com.rmd.donateblood.R;
 import com.rmd.donateblood.main.Activity_Login_Register;
 
@@ -30,7 +28,7 @@ import java.util.HashMap;
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "warning";
-    @ServerTimestamp Date time;
+    //@ServerTimestamp Date time;
     private CollectionReference token_ref;
 
     @Nullable

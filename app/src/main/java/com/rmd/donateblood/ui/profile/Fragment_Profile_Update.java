@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,14 +42,15 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 
 
-public class Fragment_Profile_Update extends Fragment {
+public class Fragment_Profile_Update extends Fragment implements AdapterView.OnItemSelectedListener {
 
 
     private FragmentProfileUpdateBinding binding;
     private CollectionReference profile_ref, donate_ref, request_ref;
+    private Spinner spinner_blood_group;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
-    private String userId, nom, phone_number, mail, image_url;
+    private String userId, nom, phone_number, mail, image_url, blood_group;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri image_uri;
     private StorageReference storageReference;
@@ -64,6 +67,9 @@ public class Fragment_Profile_Update extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         checkUserConnection();
         progressDialog = new ProgressDialog(getContext());
+
+        spinner_blood_group = view.findViewById(R.id.spinner_blood_group);
+        spinner_blood_group.setOnItemSelectedListener(this);
 
         binding = FragmentProfileUpdateBinding.bind(view);
         profile_ref = FirebaseFirestore.getInstance().collection("profiles");
@@ -106,6 +112,7 @@ public class Fragment_Profile_Update extends Fragment {
                         phone_number = "" + document.getData().get("phone_number").toString();
                         mail = "" + document.getData().get("mail").toString();
                         image_url = "" + document.getData().get("image_url").toString();
+                        blood_group = "" + document.getData().get("blood_group").toString();
 
                         binding.usernameEdt.setText(nom);
                         binding.phoneNumberEdt.setText(phone_number);
@@ -128,6 +135,7 @@ public class Fragment_Profile_Update extends Fragment {
         hashMap.put("mail", mail);
         hashMap.put("image_url", image_url);
         hashMap.put("phone_number", phone_number);
+        hashMap.put("blood_group", blood_group);
 
         profile_ref.document(firebaseAuth.getCurrentUser().getUid())
                 .update(hashMap)
@@ -254,5 +262,19 @@ public class Fragment_Profile_Update extends Fragment {
         ContentResolver contentResolver = getActivity().getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Spinner spinner = (Spinner) parent;
+        if (spinner.getId() == R.id.spinner_blood_group) {
+            blood_group = parent.getItemAtPosition(position).toString();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
