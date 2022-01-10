@@ -59,7 +59,7 @@ public class Fragment_Request_List extends Fragment {
                 for (QueryDocumentSnapshot document : value) {
                     Donate_or_Request data = document.toObject(Donate_or_Request.class);
                     donateOrRequestList.add(data);
-                    recyclerAdapterDonateRequest = new Recycler_Adapter_Donate_or_Request(requireContext(), requireActivity(),  Fragment_Request_List.this, donateOrRequestList);
+                    recyclerAdapterDonateRequest = new Recycler_Adapter_Donate_or_Request(getContext(), getActivity(),  Fragment_Request_List.this, donateOrRequestList);
                     binding.donateOrRequestListRecyclerview.setAdapter(recyclerAdapterDonateRequest);
                 }
             }

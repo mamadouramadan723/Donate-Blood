@@ -36,7 +36,7 @@ public class Activity_Login_Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_register);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Connection - Inscription");
@@ -52,7 +52,7 @@ public class Activity_Login_Register extends AppCompatActivity {
     private void checkUserConnection() {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             startActivity(new Intent(this, Activity_Main.class));
-            finish();
+            //finish();
         }else {
             loginRegister();
         }
@@ -61,8 +61,8 @@ public class Activity_Login_Register extends AppCompatActivity {
     public void loginRegister() {
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.PhoneBuilder().build()
+                new AuthUI.IdpConfig.GoogleBuilder().build()
+                //new AuthUI.IdpConfig.PhoneBuilder().build()
         );
 
         Intent intent = AuthUI.getInstance()

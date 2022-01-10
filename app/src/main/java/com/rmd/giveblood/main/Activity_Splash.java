@@ -40,14 +40,14 @@ public class Activity_Splash extends AppCompatActivity {
         title.setAnimation(bottomAnimation);
         slogan.setAnimation(bottomAnimation);
 
-        int SPLASH_SCREEN = 430;
+        int SPLASH_SCREEN = 400;
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(Activity_Splash.this, Activity_Main.class);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         }, SPLASH_SCREEN);
 

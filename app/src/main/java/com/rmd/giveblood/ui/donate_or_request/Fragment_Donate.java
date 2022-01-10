@@ -29,7 +29,7 @@ public class Fragment_Donate extends Fragment implements AdapterView.OnItemSelec
 
     private String userId, donate_request_id, nom, phone_number, mail, image_url, blood_group, city, description, time;
     private Spinner spinner_ville, spinner_region, spinner_blood_group;
-    private CollectionReference donate_ref, profile_ref;
+    private CollectionReference donate_ref, profile_ref, notif_ref;
     private ProgressDialog progressDialog;
     private FragmentDonateOrRequestBinding binding;
     private FirebaseAuth firebaseAuth;
@@ -61,6 +61,7 @@ public class Fragment_Donate extends Fragment implements AdapterView.OnItemSelec
 
         donate_ref = FirebaseFirestore.getInstance().collection("donates");
         profile_ref = FirebaseFirestore.getInstance().collection("profiles");
+        notif_ref = FirebaseFirestore.getInstance().collection("notification");
 
         //setOnClickListener
         binding.validateBtn.setOnClickListener(view1 -> upload_donate());
@@ -107,9 +108,7 @@ public class Fragment_Donate extends Fragment implements AdapterView.OnItemSelec
                         phone_number = "" + document.getData().get("phone_number").toString();
                         mail = "" + document.getData().get("mail").toString();
                         image_url = "" + document.getData().get("image_url").toString();
-                        blood_group = "" + document.getData().get("blood_group").toString();
 
-                        progressDialog.dismiss();
                     }
                 });
     }

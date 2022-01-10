@@ -14,23 +14,22 @@
       },
       "oauth_client": [
         {
-          "client_id": "1068191736581-3jjgon6cpk35dd9c2qrnasipvdn8cpo9.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "1068191736581-6iofc33ra3c5374m2qpnk7r7m7sebaep.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rmd.giveblood",
+            "certificate_hash": "69d4ac9ead2d4f60e0e2d5959638e48d42a3f11d"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA0sASDbi7bQAVf5lOKsClMCRP6HLYm8l4"
+          "current_key": "AIzaSyCDYyLQpRix1XaQ_0hpnFlj54liS5BPPJk"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1068191736581-3jjgon6cpk35dd9c2qrnasipvdn8cpo9.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
