@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "1072553666629",
+    "project_id": "donate-blood-2c0cc",
+    "storage_bucket": "donate-blood-2c0cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072553666629:android:236bfb8febe2e6c1929b2c",
+        "android_client_info": {
+          "package_name": "com.rmd.donateblood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072553666629-m6acb9fda4nro6a071ivdlm14e26sln0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rmd.donateblood",
+            "certificate_hash": "69d4ac9ead2d4f60e0e2d5959638e48d42a3f11d"
+          }
+        },
+        {
+          "client_id": "1072553666629-bq1ngu3ofv4isvv25dqr7u3ot3gi7frh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWBGs_jkg3k_1Bs9rH47b-pSx49ybFWy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072553666629-bq1ngu3ofv4isvv25dqr7u3ot3gi7frh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072553666629:android:96d2ea0788cd16a5929b2c",
+        "android_client_info": {
+          "package_name": "com.rmd.giveblood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072553666629-bq1ngu3ofv4isvv25dqr7u3ot3gi7frh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWBGs_jkg3k_1Bs9rH47b-pSx49ybFWy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072553666629-bq1ngu3ofv4isvv25dqr7u3ot3gi7frh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

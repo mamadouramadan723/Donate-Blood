@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.rmd.giveblood">
+    package="com.rmd.donateblood">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -13,17 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GiveBlood">
         <activity
-            android:name=".main.Activity_Login_Register"
+            android:name="com.rmd.donateblood.main.Activity_Login_Register"
             android:exported="false" />
 
         <activity
-            android:name=".notification.activity_fragment.Notification_Activity" />
+            android:name="com.rmd.donateblood.notification.activity_fragment.Notification_Activity" />
         <activity
-            android:name=".main.Activity_Settings"
+            android:name="com.rmd.donateblood.main.Activity_Settings"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".main.Activity_Splash"
+            android:name="com.rmd.donateblood.main.Activity_Splash"
             android:exported="true"
             android:noHistory="true"
             android:screenOrientation="locked">
@@ -34,13 +34,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.Activity_Main"
+            android:name="com.rmd.donateblood.main.Activity_Main"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.GiveBlood.NoActionBar" />
 
         <service
-            android:name=".notification.Firebase_Messaging"
+            android:name="com.rmd.donateblood.notification.Firebase_Messaging"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

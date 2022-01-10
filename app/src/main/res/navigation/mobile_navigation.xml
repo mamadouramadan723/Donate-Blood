@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.rmd.giveblood.ui.home.HomeFragment"
+        android:name="com.rmd.donateblood.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/nav_donate"
-        android:name="com.rmd.giveblood.ui.donate_or_request.Fragment_Donate"
+        android:name="com.rmd.donateblood.ui.donate_or_request.Fragment_Donate"
         android:label="@string/menu_donate_blood"
         tools:layout="@layout/fragment_donate_or_request" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_donate_list"
-        android:name="com.rmd.giveblood.ui.donate_or_request.Fragment_Donate_List"
+        android:name="com.rmd.donateblood.ui.donate_or_request.Fragment_Donate_List"
         android:label="@string/menu_all_donate"
         tools:layout="@layout/fragment_donate_or_request_list" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_request"
-        android:name="com.rmd.giveblood.ui.donate_or_request.Fragment_Request"
+        android:name="com.rmd.donateblood.ui.donate_or_request.Fragment_Request"
         android:label="@string/menu_request"
         tools:layout="@layout/fragment_donate_or_request" >
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_request_list"
-        android:name="com.rmd.giveblood.ui.donate_or_request.Fragment_Request_List"
+        android:name="com.rmd.donateblood.ui.donate_or_request.Fragment_Request_List"
         android:label="@string/menu_all_request"
         tools:layout="@layout/fragment_donate_or_request_list" >
         <action
@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.rmd.giveblood.ui.profile.Fragment_Profile"
+        android:name="com.rmd.donateblood.ui.profile.Fragment_Profile"
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -59,7 +59,7 @@
 
     <fragment
         android:id="@+id/nav_profile_update"
-        android:name="com.rmd.giveblood.ui.profile.Fragment_Profile_Update"
+        android:name="com.rmd.donateblood.ui.profile.Fragment_Profile_Update"
         android:label="@string/menu_profile_update"
         tools:layout="@layout/fragment_profile_update" >
         <action
@@ -69,13 +69,13 @@
 
     <fragment
         android:id="@+id/nav_notification"
-        android:name="com.rmd.giveblood.ui.notification.Fragment_Notification"
+        android:name="com.rmd.donateblood.ui.notification.Fragment_Notification"
         android:label="@string/menu_notification"
         tools:layout="@layout/fragment_notification" />
 
     <fragment
         android:id="@+id/nav_update_donate_request"
-        android:name="com.rmd.giveblood.ui.donate_or_request.Fragment_Update_Donate_or_Request"
+        android:name="com.rmd.donateblood.ui.donate_or_request.Fragment_Update_Donate_or_Request"
         android:label="@string/menu_update_donate_request"
         tools:layout="@layout/fragment_donate_or_request" >
         <action
@@ -88,7 +88,7 @@
     <!-->
     <fragment
         android:id="@+id/nav_"
-        android:name="com.rmd.giveblood.ui"
+        android:name="com.rmd.donatebloodod.ui"
         android:label="@string/menu"
         tools:layout="@layout/fragment" />
     <-->
