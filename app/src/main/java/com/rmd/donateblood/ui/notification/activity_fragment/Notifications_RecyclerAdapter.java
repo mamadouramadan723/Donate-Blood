@@ -1,4 +1,4 @@
-package com.rmd.donateblood.notification.activity_fragment;
+package com.rmd.donateblood.ui.notification.activity_fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -46,8 +46,9 @@ public class Notifications_RecyclerAdapter extends RecyclerView.Adapter<Notifica
 
     public Notifications_RecyclerAdapter() { }
 
-    public Notifications_RecyclerAdapter(Context context, List<Notifications> notifications) {
+    public Notifications_RecyclerAdapter(Context context, FragmentActivity activity, List<Notifications> notifications) {
         this.context = context;
+        this.activity = activity;
         this.notifications = notifications;
     }
 
@@ -64,6 +65,7 @@ public class Notifications_RecyclerAdapter extends RecyclerView.Adapter<Notifica
         userIsConnected();
         View view = LayoutInflater.from(context).inflate(R.layout.row_notification, parent, false);
         notif_ref = FirebaseFirestore.getInstance().collection("notification");
+        Log.d("****", ""+activity+"--"+context);
         sharedViewModelDonateRequest = new ViewModelProvider(activity).get(SharedViewModel_Donate_Request.class);
         return new NotificationViewHolder(view);
     }

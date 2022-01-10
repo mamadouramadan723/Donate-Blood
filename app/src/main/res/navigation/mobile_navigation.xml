@@ -69,7 +69,7 @@
 
     <fragment
         android:id="@+id/nav_notification"
-        android:name="com.rmd.donateblood.notification.activity_fragment.Notifications_Fragment"
+        android:name="com.rmd.donateblood.ui.notification.activity_fragment.Fragment_Notification"
         android:label="@string/menu_notification"
         tools:layout="@layout/fragment_notification" >
         <action

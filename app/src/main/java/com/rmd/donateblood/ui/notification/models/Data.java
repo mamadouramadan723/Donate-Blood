@@ -1,4 +1,4 @@
-package com.rmd.donateblood.notification.models;
+package com.rmd.donateblood.ui.notification.models;
 
 public class Data {
     private String user, body, title, sent;

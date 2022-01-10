@@ -84,9 +84,9 @@ public class Activity_Main extends AppCompatActivity {
             } else {
                 startActivity(new Intent(this, Activity_Login_Register.class));
             }
-        } else if (id == R.id.action_settings) {
+        } /*else if (id == R.id.action_settings) {
             startActivity(new Intent(this, Activity_Settings.class));
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 }

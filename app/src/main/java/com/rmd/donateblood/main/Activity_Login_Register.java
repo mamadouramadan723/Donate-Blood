@@ -53,16 +53,16 @@ public class Activity_Login_Register extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             startActivity(new Intent(this, Activity_Main.class));
             //finish();
-        }else {
+        } else {
             loginRegister();
         }
     }
 
     public void loginRegister() {
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.PhoneBuilder().build()
+                new AuthUI.IdpConfig.EmailBuilder().build()
+                //new AuthUI.IdpConfig.GoogleBuilder().build(),
+                //new AuthUI.IdpConfig.PhoneBuilder().build()
         );
 
         Intent intent = AuthUI.getInstance()
@@ -84,22 +84,22 @@ public class Activity_Login_Register extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String  userId, nom, phone_number, mail, image_url, blood_group;
+                String userId, nom, phone_number, mail, image_url, blood_group;
                 User my_user;
 
                 //Checking for Utilisateur (New/Old)
                 if (user.getMetadata().getCreationTimestamp() == user.getMetadata().getLastSignInTimestamp()) {
                     //This is a New Utilisateur
-                    Toast.makeText(this, "Bienvenu au nouvel utilisateur", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(this, "Bienvenu au nouvel utilisateur", Toast.LENGTH_SHORT).show();
 
                     //add this new utilisateur in firestore
-                    nom = ""+user.getDisplayName();
-                    mail = ""+user.getEmail();
+                    nom = "" + user.getDisplayName();
+                    mail = "" + user.getEmail();
                     userId = user.getUid();
                     phone_number = "";
-                    blood_group ="Not indicated";
-                    image_url = "https://firebasestorage.googleapis.com/v0/b/donate-blood-2c0cc.appspot.com/o/applogo.png?alt=media&token=b9dd8cfd-4508-4659-a95f-7473dfd4bf47";
-                    my_user = new User(userId, nom, phone_number, mail, image_url, blood_group );
+                    blood_group = "Blood Group Not indicated";
+                    image_url = "https://firebasestorage.googleapis.com/v0/b/donate-blood-2c0cc.appspot.com/o/applogo.png?alt=media&token=be51dc40-b887-430e-beac-bd51cf748172";
+                    my_user = new User(userId, nom, phone_number, mail, image_url, blood_group);
                     String timeStamp = String.valueOf(System.currentTimeMillis());
 
                     String finalNom = nom;
@@ -109,7 +109,7 @@ public class Activity_Login_Register extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()){
+                                    if (task.isSuccessful()) {
                                         //creer le document pour stocker les notifs du user
                                         HashMap<Object, String> hashMap = new HashMap<>();
                                         hashMap.put(userId, timeStamp);
@@ -117,7 +117,7 @@ public class Activity_Login_Register extends AppCompatActivity {
                                                 .document(userId)
                                                 .set(hashMap);
 
-                                        Toast.makeText(Activity_Login_Register.this, " : Welcome "+ finalNom, Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Activity_Login_Register.this, " : Welcome " + finalNom, Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -141,6 +141,7 @@ public class Activity_Login_Register extends AppCompatActivity {
             }
         }
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed(); //goto previous activity

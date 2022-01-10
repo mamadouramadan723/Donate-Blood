@@ -1,8 +1,8 @@
-package com.rmd.donateblood.notification;
+package com.rmd.donateblood.ui.notification;
 
 
-import com.rmd.donateblood.notification.models.Response;
-import com.rmd.donateblood.notification.models.Sender;
+import com.rmd.donateblood.ui.notification.models.Response;
+import com.rmd.donateblood.ui.notification.models.Sender;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

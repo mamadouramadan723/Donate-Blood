@@ -1,4 +1,4 @@
-package com.rmd.donateblood.notification;
+package com.rmd.donateblood.ui.notification;
 
 import android.app.Notification;
 import android.app.NotificationChannel;

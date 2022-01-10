@@ -35,8 +35,9 @@
                 android:id="@+id/phone_number_edt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/phoneNumber" />
+                android:hint="@string/phoneNumber_" />
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="50dp"

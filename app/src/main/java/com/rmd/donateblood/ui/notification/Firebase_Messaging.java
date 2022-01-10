@@ -1,4 +1,4 @@
-package com.rmd.donateblood.notification;
+package com.rmd.donateblood.ui.notification;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -24,7 +24,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.rmd.donateblood.notification.activity_fragment.Notification_Activity;
+import com.rmd.donateblood.ui.notification.activity_fragment.Notification_Activity;
 
 public class Firebase_Messaging extends FirebaseMessagingService {
 
@@ -34,16 +34,19 @@ public class Firebase_Messaging extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
 
         token_ref = FirebaseFirestore.getInstance().collection("tokens");
-        token_ref.document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .set(token)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Log.d("token", "Success");
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            token_ref.document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .set(token)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Log.d("token", "Success");
+                            }
                         }
-                    }
-                });
+                    });
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

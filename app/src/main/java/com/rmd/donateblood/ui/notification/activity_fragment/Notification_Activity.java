@@ -1,4 +1,4 @@
-package com.rmd.donateblood.notification.activity_fragment;
+package com.rmd.donateblood.ui.notification.activity_fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.rmd.donateblood.R;
 import com.rmd.donateblood.main.Activity_Login_Register;
 import com.rmd.donateblood.model.Notifications;
-import com.rmd.donateblood.notification.APIService;
+import com.rmd.donateblood.ui.notification.APIService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class Notification_Activity extends AppCompatActivity {
                             Notifications mynotifications = document.toObject(Notifications.class);
                             notifications.add(mynotifications);
 
-                            notificationsRecyclerAdapter = new Notifications_RecyclerAdapter(Notification_Activity.this,  notifications);
+                            notificationsRecyclerAdapter = new Notifications_RecyclerAdapter(Notification_Activity.this, Notification_Activity.this,  notifications);
                             recyclerView.setAdapter(notificationsRecyclerAdapter);
                         }
                     }

@@ -31,9 +31,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.rmd.donateblood.R;
@@ -41,14 +39,14 @@ import com.rmd.donateblood.databinding.FragmentDonateOrRequestBinding;
 import com.rmd.donateblood.main.Activity_Login_Register;
 import com.rmd.donateblood.model.Donate_or_Request;
 import com.rmd.donateblood.model.Notifications;
-import com.rmd.donateblood.notification.APIService;
-import com.rmd.donateblood.notification.Notification_AutoSendNotif_OreoAndAbove;
-import com.rmd.donateblood.notification.activity_fragment.Notification_Activity;
-import com.rmd.donateblood.notification.models.Client;
-import com.rmd.donateblood.notification.models.Data;
-import com.rmd.donateblood.notification.models.Response;
-import com.rmd.donateblood.notification.models.Sender;
-import com.rmd.donateblood.notification.models.Token;
+import com.rmd.donateblood.ui.notification.APIService;
+import com.rmd.donateblood.ui.notification.Notification_AutoSendNotif_OreoAndAbove;
+import com.rmd.donateblood.ui.notification.activity_fragment.Notification_Activity;
+import com.rmd.donateblood.ui.notification.models.Client;
+import com.rmd.donateblood.ui.notification.models.Data;
+import com.rmd.donateblood.ui.notification.models.Response;
+import com.rmd.donateblood.ui.notification.models.Sender;
+import com.rmd.donateblood.ui.notification.models.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,12 +107,15 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
     }
 
     private void upload_Request() {
+        time = String.valueOf(System.currentTimeMillis());
+        donate_request_id =  time + "__" +userId;
+        description = "" + binding.descriptionEdt.getText().toString();
+        if(phone_number.equals("")){
+            Toast.makeText(getContext(), "Make Sure You Have a Phone Number", Toast.LENGTH_LONG).show();
+            return;
+        }
         progressDialog.setMessage("Uploading...");
         progressDialog.show();
-
-        time = String.valueOf(System.currentTimeMillis());
-        donate_request_id = userId + "__" + time;
-        description = "" + binding.descriptionEdt.getText().toString();
 
         //
         get_blood_compatibility();
@@ -128,69 +129,10 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
                     progressDialog.dismiss();
                     String timeStamp = String.valueOf(System.currentTimeMillis());
                     find_donor_inside_donation_and_send_notification(timeStamp);
-                    find_donor_inside_profiles_and_send_notification(timeStamp);
+
                     NavHostFragment.findNavController(Fragment_Request.this)
                             .navigate(R.id.action_nav_request_to_nav_request_list);
                 });
-    }
-
-    private void find_donor_inside_profiles_and_send_notification(String timeStamp) {
-
-        profile_ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for (QueryDocumentSnapshot queryDocumentSnapshot : value) {
-                    profile_ref.document(queryDocumentSnapshot.getId())
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        String this_blood_group, this_user_id;
-                                        this_blood_group = "" + document.getData().get("blood_group").toString();
-                                        this_user_id = "" + document.getData().get("userId").toString();
-
-                                        //s'ils sont compatibles
-                                        if (compatible_list.contains(this_blood_group)) {
-                                            //notify donor
-                                            String notif_desc = "Vous pouvez peut être sauver cette vie, cliquez pour voir";
-                                            String type_notif = "requests";
-                                            Notifications notification =
-                                                    new Notifications(FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                                                            image_url, timeStamp, timeStamp, notif_desc, type_notif, donate_request_id);
-
-                                            notif_ref.document(this_user_id)
-                                                    .collection("notifs")
-                                                    .document(timeStamp)
-                                                    .set(notification);
-                                            send_notification_to_donor(this_user_id);
-
-                                            //notify requester
-                                            notif_desc = "Cette Personne pourrait bien vous aider, cliquez pour voir";
-                                            if (this_user_id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                                type_notif = "requests";
-                                            } else {
-                                                type_notif = "donates";
-                                            }
-
-                                            notification =
-                                                    new Notifications(FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                                                            image_url, timeStamp, timeStamp, notif_desc, type_notif, donate_request_id);
-
-                                            notif_ref.document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                    .collection("notifs")
-                                                    .document(timeStamp)
-                                                    .set(notification);
-                                            send_notification_to_requester(this_user_id);
-                                        }
-                                    }
-                                }
-                            });
-                }
-            }
-        });
     }
 
     private void find_donor_inside_donation_and_send_notification(String timeStamp) {

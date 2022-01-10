@@ -17,7 +17,7 @@
             android:exported="false" />
 
         <activity
-            android:name="com.rmd.donateblood.notification.activity_fragment.Notification_Activity" />
+            android:name=".ui.notification.activity_fragment.Notification_Activity" />
         <activity
             android:name="com.rmd.donateblood.main.Activity_Settings"
             android:exported="false"
@@ -40,7 +40,7 @@
             android:theme="@style/Theme.GiveBlood.NoActionBar" />
 
         <service
-            android:name="com.rmd.donateblood.notification.Firebase_Messaging"
+            android:name=".ui.notification.Firebase_Messaging"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

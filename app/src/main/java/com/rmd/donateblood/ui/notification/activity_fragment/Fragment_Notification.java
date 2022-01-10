@@ -1,7 +1,8 @@
-package com.rmd.donateblood.notification.activity_fragment;
+package com.rmd.donateblood.ui.notification.activity_fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,9 @@ import com.rmd.donateblood.model.Notifications;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Notifications_Fragment extends Fragment {
+
+public class Fragment_Notification extends Fragment {
+
 
     private List<Notifications> notifications;
     private CollectionReference notif_ref;
@@ -62,7 +65,8 @@ public class Notifications_Fragment extends Fragment {
                             Notifications mynotifications = document.toObject(Notifications.class);
                             notifications.add(mynotifications);
 
-                            notificationsRecyclerAdapter = new Notifications_RecyclerAdapter(getContext(), Notifications_Fragment.this, getActivity(), notifications);
+                            Log.d("****test", ""+getActivity()+"--"+getContext());
+                            notificationsRecyclerAdapter = new Notifications_RecyclerAdapter(getContext(), Fragment_Notification.this, getActivity(), notifications);
                             recyclerView.setAdapter(notificationsRecyclerAdapter);
                         }
                     }

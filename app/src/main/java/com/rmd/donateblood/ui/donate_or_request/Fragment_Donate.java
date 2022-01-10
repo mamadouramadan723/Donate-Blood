@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,12 +72,18 @@ public class Fragment_Donate extends Fragment implements AdapterView.OnItemSelec
     }
 
     private void upload_donate() {
+
+        time = String.valueOf(System.currentTimeMillis());
+        donate_request_id = time + "__" + userId;
+        description = "" + binding.descriptionEdt.getText().toString();
+
+        if(phone_number.equals("")){
+            Toast.makeText(getContext(), "Make Sure You Have a Phone Number", Toast.LENGTH_LONG).show();
+            return;
+        }
         progressDialog.setMessage("Uploading...");
         progressDialog.show();
 
-        time = String.valueOf(System.currentTimeMillis());
-        donate_request_id = userId + "__" + time;
-        description = "" + binding.descriptionEdt.getText().toString();
 
         Donate_or_Request data = new Donate_or_Request(userId, donate_request_id, nom, phone_number,
                 mail, image_url, blood_group, city, description, time, "donates");

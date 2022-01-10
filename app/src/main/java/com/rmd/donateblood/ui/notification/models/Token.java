@@ -1,4 +1,4 @@
-package com.rmd.donateblood.notification.models;
+package com.rmd.donateblood.ui.notification.models;
 
 public class Token {
     /*An ID issued by the GCM connection servers to the client app that allows it to receive messages.

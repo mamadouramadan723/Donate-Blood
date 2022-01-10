@@ -65,6 +65,7 @@
     <string name="notification_description">Notif Description</string>
     <string name="_01_02_2021">01/02/2022</string>
     <string name="menu_matched">Correspondance</string>
+    <string name="phoneNumber_">Phon number without +212. Correct Format : 06******** or 07********</string>
 
 
     <!--><-->

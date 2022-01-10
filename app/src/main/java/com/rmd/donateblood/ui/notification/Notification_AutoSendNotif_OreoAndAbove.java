@@ -1,4 +1,4 @@
-package com.rmd.donateblood.notification;
+package com.rmd.donateblood.ui.notification;
 
 
 import android.app.Notification;
@@ -16,7 +16,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.rmd.donateblood.R;
-import com.rmd.donateblood.notification.activity_fragment.Notification_Activity;
+import com.rmd.donateblood.ui.notification.activity_fragment.Notification_Activity;
 
 //pour s'auto envoyer de notifications
 

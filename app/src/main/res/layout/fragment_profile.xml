@@ -63,12 +63,13 @@
                         android:id="@+id/phone_number_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/phoneNumber"
+                        android:hint="@string/phoneNumber_"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:textStyle="italic" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/blood_group_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
