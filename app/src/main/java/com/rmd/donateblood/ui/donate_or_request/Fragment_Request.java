@@ -48,6 +48,9 @@ import com.rmd.donateblood.notification.models.Response;
 import com.rmd.donateblood.notification.models.Sender;
 import com.rmd.donateblood.notification.models.Token;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -61,6 +64,7 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
     private FragmentDonateOrRequestBinding binding;
     private FirebaseAuth firebaseAuth;
     private APIService apiService;
+    private List<String> compatible_list = new ArrayList<>();
     private static final int NOTIF_ID = 123;
 
     public Fragment_Request() {
@@ -110,6 +114,10 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
         donate_request_id = userId + "__" + time;
         description = "" + binding.descriptionEdt.getText().toString();
 
+        //
+        get_blood_compatibility();
+        //
+
         Donate_or_Request data = new Donate_or_Request(userId, donate_request_id, nom, phone_number,
                 mail, image_url, blood_group, city, description, time, "requests");
         request_ref.document(donate_request_id).set(data)
@@ -124,9 +132,12 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
 
     private void find_donor_and_send_notification() {
         String timeStamp = String.valueOf(System.currentTimeMillis());
-        request_ref.whereEqualTo("blood_group", blood_group)
+
+        Log.d("******", ""+compatible_list);
+        request_ref.whereIn("blood_group", compatible_list)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
@@ -145,7 +156,7 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
                                         .document(timeStamp)
                                         .set(notification);
                                 send_notification_to_donor(id);
-                                
+
                                 //notify requester
                                 notif_desc = "Cette Donation pourrait bien vous concerner, cliquez pour voir";
                                 type_notif = "donates";
@@ -163,15 +174,64 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
                 });
     }
 
+    private void get_blood_compatibility() {
+
+        switch (blood_group) {
+            case "A+":
+                compatible_list.add("A+");
+                compatible_list.add("A-");
+                compatible_list.add("O+");
+                compatible_list.add("O-");
+                break;
+            case "A-":
+                compatible_list.add("A-");
+                compatible_list.add("0-");
+                break;
+            case "B+":
+                compatible_list.add("B+");
+                compatible_list.add("B-");
+                compatible_list.add("O+");
+                compatible_list.add("O-");
+                break;
+            case "B-":
+                compatible_list.add("B-");
+                compatible_list.add("O-");
+                break;
+            case "AB+":
+                compatible_list.add("A+");
+                compatible_list.add("A-");
+                compatible_list.add("B+");
+                compatible_list.add("B-");
+                compatible_list.add("AB+");
+                compatible_list.add("AB-");
+                compatible_list.add("O+");
+                compatible_list.add("O-");
+                break;
+            case "AB-":
+                compatible_list.add("A-");
+                compatible_list.add("B-");
+                compatible_list.add("AB-");
+                compatible_list.add("O-");
+                break;
+            case "0+":
+                compatible_list.add("O+");
+                compatible_list.add("O-");
+                break;
+            case "0-":
+                compatible_list.add("0-");
+                break;
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void send_notification_to_requester(String id) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //O = 26
 
             Notification_AutoSendNotif_OreoAndAbove beforeOreoNotification = new Notification_AutoSendNotif_OreoAndAbove(getContext());
-            beforeOreoNotification.notify(1, false, "Nouveau Message", "une Donation qui pourrait bien vous interesser" );
-        }else {
-            long [] swPattern = new long[] { 0, 500, 110, 500, 110, 450, 110, 200, 110,
-                    170, 40, 450, 110, 200, 110, 170, 40, 500 };
+            beforeOreoNotification.notify(1, false, "Nouveau Message", "une Donation qui pourrait bien vous interesser");
+        } else {
+            long[] swPattern = new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110,
+                    170, 40, 450, 110, 200, 110, 170, 40, 500};
             Context context = getContext();
             Resources res = context.getResources();
             Intent notificationIntent = new Intent(context, Notification_Activity.class);
@@ -185,7 +245,7 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
                     .setAutoCancel(true)
                     .setContentIntent(contentIntent)
                     .setContentTitle("Nouveau Message")
-                    .setContentText( "une Offre qui pourrait bien vous interesser" )
+                    .setContentText("une Offre qui pourrait bien vous interesser")
                     .setLights(Color.RED, 3000, 3000)
                     .setVibrate(swPattern)
                     .getNotification();     // avant l'API 16
@@ -193,8 +253,8 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
 
             NotificationManager notifManager = (NotificationManager)
                     context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notifManager.notify( NOTIF_ID, notification );
-            Log.i( "MainActivity", "Notifications launched" );
+            notifManager.notify(NOTIF_ID, notification);
+            Log.i("MainActivity", "Notifications launched");
         }
     }
 
