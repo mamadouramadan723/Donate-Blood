@@ -66,7 +66,7 @@ public class Fragment_Notification extends Fragment {
                             notifications.add(mynotifications);
 
                             Log.d("****test", ""+getActivity()+"--"+getContext());
-                            notificationsRecyclerAdapter = new Notifications_RecyclerAdapter(getContext(), Fragment_Notification.this, getActivity(), notifications);
+                            notificationsRecyclerAdapter = new Notifications_RecyclerAdapter(getContext(), Fragment_Notification.this, getActivity(), "fragment", notifications);
                             recyclerView.setAdapter(notificationsRecyclerAdapter);
                         }
                     }

@@ -13,17 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GiveBlood">
         <activity
-            android:name="com.rmd.donateblood.main.Activity_Login_Register"
+            android:name=".ui.donate_or_request.Activity_Matched_Donate_or_Request"
             android:exported="false" />
-
         <activity
-            android:name=".ui.notification.activity_fragment.Notification_Activity" />
+            android:name=".main.Activity_Login_Register"
+            android:exported="false" />
+        <activity android:name=".ui.notification.activity_fragment.Notification_Activity" />
         <activity
-            android:name="com.rmd.donateblood.main.Activity_Settings"
+            android:name=".main.Activity_Settings"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name="com.rmd.donateblood.main.Activity_Splash"
+            android:name=".main.Activity_Splash"
             android:exported="true"
             android:noHistory="true"
             android:screenOrientation="locked">
@@ -34,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.rmd.donateblood.main.Activity_Main"
+            android:name=".main.Activity_Main"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.GiveBlood.NoActionBar" />
@@ -47,6 +48,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />

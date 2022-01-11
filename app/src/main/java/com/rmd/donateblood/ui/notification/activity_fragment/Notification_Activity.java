@@ -62,7 +62,7 @@ public class Notification_Activity extends AppCompatActivity {
                             Notifications mynotifications = document.toObject(Notifications.class);
                             notifications.add(mynotifications);
 
-                            notificationsRecyclerAdapter = new Notifications_RecyclerAdapter(Notification_Activity.this, Notification_Activity.this,  notifications);
+                            notificationsRecyclerAdapter = new Notifications_RecyclerAdapter(Notification_Activity.this, Notification_Activity.this,   "activity", notifications);
                             recyclerView.setAdapter(notificationsRecyclerAdapter);
                         }
                     }

@@ -13,10 +13,12 @@
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/activity_login.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/activity_login_register.xml" value="0.1" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/activity_matched_donate_or_request.xml" value="0.1" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/activity_settings.xml" value="0.2" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/activity_splash.xml" value="0.1" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/content_main.xml" value="0.2" />
+        <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment__notification.xml" value="0.2" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment_donate.xml" value="0.33" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment_donate_list.xml" value="0.2" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment_donate_or_request.xml" value="0.2" />
@@ -24,6 +26,7 @@
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment_donate_or_request_update.xml" value="0.1" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment_donate_request_list.xml" value="0.2" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment_matched_donate_or_request.xml" value="0.2" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment_notification.xml" value="0.2" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="..\:/Users/mamad/AndroidStudioProjects/GiveBlood/app/src/main/res/layout/fragment_profile_update.xml" value="0.2" />

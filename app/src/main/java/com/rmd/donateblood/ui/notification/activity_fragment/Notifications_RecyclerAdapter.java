@@ -31,6 +31,7 @@ import com.rmd.donateblood.main.Activity_Login_Register;
 import com.rmd.donateblood.model.Donate_or_Request_Id_Type;
 import com.rmd.donateblood.model.Notifications;
 import com.rmd.donateblood.sharedviewmodel.SharedViewModel_Donate_Request;
+import com.rmd.donateblood.ui.donate_or_request.Activity_Matched_Donate_or_Request;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -40,22 +41,25 @@ public class Notifications_RecyclerAdapter extends RecyclerView.Adapter<Notifica
     private Context context;
     private Fragment fragment;
     private FragmentActivity activity;
+    private String from;
     private List<Notifications> notifications;
     private CollectionReference notif_ref;
     private SharedViewModel_Donate_Request sharedViewModelDonateRequest;
 
     public Notifications_RecyclerAdapter() { }
 
-    public Notifications_RecyclerAdapter(Context context, FragmentActivity activity, List<Notifications> notifications) {
-        this.context = context;
-        this.activity = activity;
-        this.notifications = notifications;
-    }
-
-    public Notifications_RecyclerAdapter(Context context, Fragment fragment, FragmentActivity activity, List<Notifications> notifications) {
+    public Notifications_RecyclerAdapter(Context context, Fragment fragment, FragmentActivity activity, String from, List<Notifications> notifications) {
         this.context = context;
         this.fragment = fragment;
         this.activity = activity;
+        this.from = from;
+        this.notifications = notifications;
+    }
+
+    public Notifications_RecyclerAdapter(Context context, FragmentActivity activity, String from, List<Notifications> notifications) {
+        this.context = context;
+        this.activity = activity;
+        this.from = from;
         this.notifications = notifications;
     }
 
@@ -98,10 +102,20 @@ public class Notifications_RecyclerAdapter extends RecyclerView.Adapter<Notifica
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedViewModelDonateRequest.set_id_and_type(new Donate_or_Request_Id_Type(donate_request_id, type_notif));
-                Log.d("*****", "donate_request_id : "+donate_request_id);
-                NavHostFragment.findNavController(fragment)
-                        .navigate(R.id.action_nav_notification_to_nav_matched);
+
+                if(from.equals("fragment")){
+                    sharedViewModelDonateRequest.set_id_and_type(new Donate_or_Request_Id_Type(donate_request_id, type_notif));
+                    //Log.d("*****", "donate_request_id : "+donate_request_id);
+                    NavHostFragment.findNavController(fragment)
+                            .navigate(R.id.action_nav_notification_to_nav_matched);
+                }else if (from.equals("activity")){
+                    Log.d("*******", "donate_request_id : "+donate_request_id);
+                    Intent intent = new Intent(activity, Activity_Matched_Donate_or_Request.class);
+                    intent.putExtra("donate_request_id", donate_request_id);
+                    intent.putExtra("type_notif", type_notif);
+                    activity.startActivity(intent);
+                }
+
             }
         });
     }

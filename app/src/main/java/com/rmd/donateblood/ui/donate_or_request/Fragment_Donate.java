@@ -1,8 +1,17 @@
 package com.rmd.donateblood.ui.donate_or_request;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,27 +22,50 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.rmd.donateblood.R;
 import com.rmd.donateblood.databinding.FragmentDonateOrRequestBinding;
 import com.rmd.donateblood.main.Activity_Login_Register;
 import com.rmd.donateblood.model.Donate_or_Request;
+import com.rmd.donateblood.model.Notifications;
+import com.rmd.donateblood.ui.notification.APIService;
+import com.rmd.donateblood.ui.notification.Notification_AutoSendNotif_OreoAndAbove;
+import com.rmd.donateblood.ui.notification.activity_fragment.Notification_Activity;
+import com.rmd.donateblood.ui.notification.models.Client;
+import com.rmd.donateblood.ui.notification.models.Data;
+import com.rmd.donateblood.ui.notification.models.Response;
+import com.rmd.donateblood.ui.notification.models.Sender;
+import com.rmd.donateblood.ui.notification.models.Token;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class Fragment_Donate extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private String userId, donate_request_id, nom, phone_number, mail, image_url, blood_group, city, description, time;
     private Spinner spinner_ville, spinner_region, spinner_blood_group;
-    private CollectionReference donate_ref, profile_ref, notif_ref;
+    private CollectionReference donate_ref, request_ref, profile_ref, notif_ref, token_ref;
     private ProgressDialog progressDialog;
     private FragmentDonateOrRequestBinding binding;
     private FirebaseAuth firebaseAuth;
+    private APIService apiService;
+    private List<String> compatible_list = new ArrayList<>();
+    private static final int NOTIF_ID = 123;
 
     public Fragment_Donate() {
     }
@@ -61,14 +93,18 @@ public class Fragment_Donate extends Fragment implements AdapterView.OnItemSelec
         spinner_ville.setOnItemSelectedListener(this);
 
         donate_ref = FirebaseFirestore.getInstance().collection("donates");
+        request_ref = FirebaseFirestore.getInstance().collection("requests");
         profile_ref = FirebaseFirestore.getInstance().collection("profiles");
         notif_ref = FirebaseFirestore.getInstance().collection("notification");
+        token_ref = FirebaseFirestore.getInstance().collection("tokens");
 
         //setOnClickListener
         binding.validateBtn.setOnClickListener(view1 -> upload_donate());
 
         //function
         getUserInfos();
+        //cretae apiService
+        apiService = Client.getRetrofit().create(APIService.class);
     }
 
     private void upload_donate() {
@@ -84,6 +120,9 @@ public class Fragment_Donate extends Fragment implements AdapterView.OnItemSelec
         progressDialog.setMessage("Uploading...");
         progressDialog.show();
 
+        //
+        get_blood_compatibility();
+        //
 
         Donate_or_Request data = new Donate_or_Request(userId, donate_request_id, nom, phone_number,
                 mail, image_url, blood_group, city, description, time, "donates");
@@ -91,10 +130,179 @@ public class Fragment_Donate extends Fragment implements AdapterView.OnItemSelec
                 .addOnCompleteListener(task -> {
                     binding.descriptionEdt.setText("");
                     progressDialog.dismiss();
+                    String timeStamp = String.valueOf(System.currentTimeMillis());
+                    find_requester_inside_requests_and_send_notification(timeStamp);
                     NavHostFragment.findNavController(Fragment_Donate.this)
                             .navigate(R.id.action_nav_donate_to_nav_donate_list);
                 });
     }
+
+    private void find_requester_inside_requests_and_send_notification(String timeStamp) {
+
+        request_ref.whereIn("blood_group", compatible_list)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String id_requester =""+ document.getData().get("userId").toString();
+                                String matched_request_id =""+ document.getData().get("donate_request_id").toString();
+
+                                //notify donor
+                                String notif_desc = "Vous pouvez bien sauver cette vie, cliquez pour voir";
+                                String type_notif = "requests";
+                                Notifications notification =
+                                        new Notifications(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                                image_url, timeStamp, timeStamp, notif_desc, type_notif, matched_request_id);
+
+                                notif_ref.document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .collection("notifs")
+                                        .document(timeStamp)
+                                        .set(notification);
+                                send_notification_to_donor(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                //notify requester
+                                notif_desc = "Cette Personne pourrait bien vous aider, cliquez pour voir";
+                                type_notif = "donates";
+                                notification =
+                                        new Notifications(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                                image_url, timeStamp, timeStamp, notif_desc, type_notif, donate_request_id);
+
+                                notif_ref.document(id_requester)
+                                        .collection("notifs")
+                                        .document(timeStamp)
+                                        .set(notification);
+                                send_notification_to_requester(id_requester);
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void get_blood_compatibility() {
+        //compatible_list.clear();
+        Log.d("******2", "" + blood_group);
+        //compatible_list.add("");
+        switch (blood_group) {
+            case "A+":
+                compatible_list.add("A+");
+                compatible_list.add("A-");
+                compatible_list.add("O+");
+                compatible_list.add("O-");
+                break;
+            case "A-":
+                compatible_list.add("A-");
+                compatible_list.add("0-");
+                break;
+            case "B+":
+                compatible_list.add("B+");
+                compatible_list.add("B-");
+                compatible_list.add("O+");
+                compatible_list.add("O-");
+                break;
+            case "B-":
+                compatible_list.add("B-");
+                compatible_list.add("O-");
+                break;
+            case "AB+":
+                compatible_list.add("A+");
+                compatible_list.add("A-");
+                compatible_list.add("B+");
+                compatible_list.add("B-");
+                compatible_list.add("AB+");
+                compatible_list.add("AB-");
+                compatible_list.add("O+");
+                compatible_list.add("O-");
+                break;
+            case "AB-":
+                compatible_list.add("A-");
+                compatible_list.add("B-");
+                compatible_list.add("AB-");
+                compatible_list.add("O-");
+                break;
+            case "0+":
+                compatible_list.add("O+");
+                compatible_list.add("O-");
+                break;
+            case "0-":
+                compatible_list.add("0-");
+                break;
+            default:
+                compatible_list.add(blood_group);
+                break;
+        }
+        Log.d("******3", "" + compatible_list);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void send_notification_to_donor(String id) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //O = 26
+
+            Notification_AutoSendNotif_OreoAndAbove beforeOreoNotification = new Notification_AutoSendNotif_OreoAndAbove(getContext());
+            beforeOreoNotification.notify(1, false, "Nouveau Message", "une Donation qui pourrait bien vous interesser");
+        } else {
+            long[] swPattern = new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110,
+                    170, 40, 450, 110, 200, 110, 170, 40, 500};
+            Context context = getContext();
+            Resources res = context.getResources();
+            Intent notificationIntent = new Intent(context, Notification_Activity.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(
+                    context, 456, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Notification notification = new Notification.Builder(context)
+                    .setSmallIcon(R.drawable.applogo)     // drawable for API 26
+                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.applogo))
+                    .setWhen(System.currentTimeMillis())
+                    .setAutoCancel(true)
+                    .setContentIntent(contentIntent)
+                    .setContentTitle("Nouveau Message")
+                    .setContentText("une Requete qui pourrait bien vous interesser")
+                    .setLights(Color.RED, 3000, 3000)
+                    .setVibrate(swPattern)
+                    .getNotification();     // avant l'API 16
+            //.build();             // à partir de l'API 16
+
+            NotificationManager notifManager = (NotificationManager)
+                    context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notifManager.notify(NOTIF_ID, notification);
+            Log.i("MainActivity", "Notifications launched");
+        }
+    }
+
+    private void send_notification_to_requester(String id) {
+        //revcevoir le token du demandeur
+        token_ref.document(id)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    Token token = documentSnapshot.toObject(Token.class);
+
+                    Data data = new Data(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                            "Une Donation qui pourrait bien vous interesser ", "Nouveau Message", id, R.drawable.applogo);
+                    Sender sender = new Sender(data, token.getToken());
+
+                    apiService.sendNotifiaction(sender)
+                            .enqueue(new Callback<Response>() {
+                                @Override
+                                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                                    Toast.makeText(getContext(), "Success : " + response.message(), Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onFailure(Call<Response> call, Throwable t) {
+                                    Log.d("++++", "echec sending notif");
+                                }
+                            });
+                }
+            }
+        });
+    }
+
+
 
     private void checkUserConnection() {
         if (firebaseAuth.getCurrentUser() == null) {

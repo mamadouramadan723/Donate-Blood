@@ -59,7 +59,7 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
 
     private String userId, donate_request_id, nom, phone_number, mail, image_url, blood_group, city, description, time;
     private Spinner spinner_ville, spinner_region, spinner_blood_group;
-    private CollectionReference request_ref, profile_ref, notif_ref, token_ref;
+    private CollectionReference request_ref, donate_ref, profile_ref, notif_ref, token_ref;
     private ProgressDialog progressDialog;
     private FragmentDonateOrRequestBinding binding;
     private FirebaseAuth firebaseAuth;
@@ -93,6 +93,7 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
         spinner_ville.setOnItemSelectedListener(this);
 
         request_ref = FirebaseFirestore.getInstance().collection("requests");
+        donate_ref = FirebaseFirestore.getInstance().collection("donates");
         profile_ref = FirebaseFirestore.getInstance().collection("profiles");
         notif_ref = FirebaseFirestore.getInstance().collection("notification");
         token_ref = FirebaseFirestore.getInstance().collection("tokens");
@@ -129,7 +130,6 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
                     progressDialog.dismiss();
                     String timeStamp = String.valueOf(System.currentTimeMillis());
                     find_donor_inside_donation_and_send_notification(timeStamp);
-
                     NavHostFragment.findNavController(Fragment_Request.this)
                             .navigate(R.id.action_nav_request_to_nav_request_list);
                 });
@@ -137,7 +137,7 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
 
     private void find_donor_inside_donation_and_send_notification(String timeStamp) {
 
-        request_ref.whereIn("blood_group", compatible_list)
+        donate_ref.whereIn("blood_group", compatible_list)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -145,7 +145,8 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String id = document.getData().get("userId").toString();
+                                String id_donor =""+ document.getData().get("userId").toString();
+                                String matched_donate_id =""+ document.getData().get("donate_request_id").toString();
 
                                 //notify donor
                                 String notif_desc = "Cette Requete pourrait bien vous concerner, cliquez pour voir";
@@ -154,29 +155,33 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
                                         new Notifications(FirebaseAuth.getInstance().getCurrentUser().getUid(),
                                                 image_url, timeStamp, timeStamp, notif_desc, type_notif, donate_request_id);
 
-                                notif_ref.document(id)
+                                notif_ref.document(id_donor)
                                         .collection("notifs")
                                         .document(timeStamp)
                                         .set(notification);
-                                send_notification_to_donor(id);
+                                send_notification_to_donor(id_donor);
 
                                 //notify requester
-                                notif_desc = "Cette Donation pourrait bien vous concerner, cliquez pour voir";
-                                if (id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                    type_notif = "requests";
-                                } else {
-                                    type_notif = "donates";
-                                }
 
+                                /*if (id_donor.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    notif_desc = "Cette Requete t'appartient dejà, cliquez pour voir";
+                                    type_notif = "requests";
+                                    this_donate_id = donate_request_id;
+                                } else {
+
+                                }*/
+
+                                notif_desc = "Cette Donation pourrait bien vous concerner, cliquez pour voir";
+                                type_notif = "donates";
                                 notification =
                                         new Notifications(FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                                                image_url, timeStamp, timeStamp, notif_desc, type_notif, donate_request_id);
+                                                image_url, timeStamp, timeStamp, notif_desc, type_notif, matched_donate_id);
 
                                 notif_ref.document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                         .collection("notifs")
                                         .document(timeStamp)
                                         .set(notification);
-                                send_notification_to_requester(id);
+                                send_notification_to_requester(FirebaseAuth.getInstance().getCurrentUser().getUid());
                             }
                         }
                     }
@@ -260,7 +265,7 @@ public class Fragment_Request extends Fragment implements AdapterView.OnItemSele
                     .setAutoCancel(true)
                     .setContentIntent(contentIntent)
                     .setContentTitle("Nouveau Message")
-                    .setContentText("une Offre qui pourrait bien vous interesser")
+                    .setContentText("une Donation qui pourrait bien vous interesser")
                     .setLights(Color.RED, 3000, 3000)
                     .setVibrate(swPattern)
                     .getNotification();     // avant l'API 16
